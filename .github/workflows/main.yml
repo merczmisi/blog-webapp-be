@@ -55,5 +55,5 @@ jobs:
         with:
           app-name: 'blog-webapp'
           slot-name: 'production'
-          package: '*.war'
+          package: '*.jar'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile_1234 }}
