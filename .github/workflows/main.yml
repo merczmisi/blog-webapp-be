@@ -58,5 +58,5 @@ jobs:
         with:
           app-name: 'blog-webapp'
           slot-name: 'production'
-          package: '*.jar'
+          package: '**/*.jar'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
