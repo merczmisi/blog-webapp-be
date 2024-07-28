@@ -49,14 +49,13 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Pre-build check List files and directories
-        run: ls -alh
-        working-directory: ./target
+      - name: List files in directory
+        run: ls -al
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'blog-webapp'
-          package: 'target/*.jar'
+          package: '${{ github.workspace }}/blog-webapp-be/target/*.jar'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
