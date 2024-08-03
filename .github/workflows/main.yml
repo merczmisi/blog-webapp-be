@@ -44,13 +44,12 @@ jobs:
         with:
           name: blog-webapp
 
+
+
       - name: Azure Login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Verify Publish Profile Secret
-        run: echo "${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}"
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
