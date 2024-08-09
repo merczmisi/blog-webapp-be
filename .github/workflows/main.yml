@@ -10,44 +10,73 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+#  build:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - name: Set up Java version
+#        uses: actions/setup-java@v4
+#        with:
+#          java-version: '17'
+#          distribution: 'microsoft'
+
+#      - name: Build with Maven
+#        run: mvn clean install -DskipTests
+#
+#      - name: Upload artifact for deployment job
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: blog-webapp
+#          path: '${{ github.workspace }}/target/*.jar'
+
+#  deploy:
+#    runs-on: ubuntu-latest
+#    needs: build
+#    steps:
+#      - name: Download artifact from build job
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: blog-webapp
+#
+#      - name: Deploy to Azure Web App
+#        id: deploy-to-webapp
+#        uses: azure/webapps-deploy@v2
+#        with:
+#          app-name: 'blog-webapp'
+#          package: './backend-0.0.1-SNAPSHOT.jar'
+#          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
 
-      - name: Set up Java version
-        uses: actions/setup-java@v4
+      - name: Log in to Azure
+        uses: azure/login@v1
         with:
-          java-version: '17'
-          distribution: 'microsoft'
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Build with Maven
-        run: mvn clean install -DskipTests
+      - name: Build Docker image
+        run: |
+          docker build -t blogwebappregistry.azurecr.io/java-app:latest .
 
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
-        with:
-          name: blog-webapp
-          path: '${{ github.workspace }}/target/*.jar'
+      - name: Log in to ACR
+        run: |
+          az acr login --name mycontainerregistry
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-#    environment:
-#      name: 'production'
-#      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: blog-webapp
+      - name: Push Docker image to ACR
+        run: |
+          docker push mycontainerregistry.azurecr.io/java-app:latest
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'blog-webapp'
-          package: './backend-0.0.1-SNAPSHOT.jar'
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+      - name: Deploy to Azure Container Instances
+        run: |
+          az container create \
+            --resource-group myResourceGroup \
+            --name mycontainerinstance \
+            --image mycontainerregistry.azurecr.io/java-app:latest \
+            --cpu 1 --memory 1.5 \
+            --ports 8080 \
+            --ip-address public \
+            --environment-variables SPRING_DATASOURCE_URL=jdbc:mysql://<mysql-server>:3306/PostShare?allowPublicKeyRetrieval=true SPRING_DATASOURCE_USERNAME=root SPRING_DATASOURCE_PASSWORD=rootpassword
