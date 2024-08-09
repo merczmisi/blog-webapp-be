@@ -75,18 +75,18 @@ jobs:
 
       - name: Log in to ACR
         run: |
-          az acr login --name mycontainerregistry
+          az acr login --name blogwebappregistry
 
       - name: Push Docker image to ACR
         run: |
-          docker push mycontainerregistry.azurecr.io/java-app:latest
+          docker push blogwebappregistry.azurecr.io/java-app:latest
 
       - name: Deploy to Azure Container Instances
         run: |
           az container create \
             --resource-group myResourceGroup \
-            --name mycontainerinstance \
-            --image mycontainerregistry.azurecr.io/java-app:latest \
+            --name blogwebappinstance \
+            --image blogwebappregistry.azurecr.io/java-app:latest \
             --cpu 1 --memory 1.5 \
             --ports 8080 \
             --ip-address public \
