@@ -90,4 +90,4 @@ jobs:
             --cpu 1 --memory 1.5 \
             --ports 8080 \
             --ip-address public \
-            --environment-variables SPRING_DATASOURCE_URL=jdbc:mysql://<mysql-server>:3306/PostShare?allowPublicKeyRetrieval=true SPRING_DATASOURCE_USERNAME=root SPRING_DATASOURCE_PASSWORD=rootpassword
+            --environment-variables SPRING_DATASOURCE_URL=jdbc:mysql://blog-webapp-db:3306/PostShare?allowPublicKeyRetrieval=true SPRING_DATASOURCE_USERNAME=root SPRING_DATASOURCE_PASSWORD=rootpassword
