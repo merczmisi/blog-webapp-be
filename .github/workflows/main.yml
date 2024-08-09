@@ -86,6 +86,7 @@ jobs:
           az container create \
             --resource-group blog-webapp \
             --registry-username blog-webapp-user \
+            --registry-password blog-webapp-pwd \
             --name blogwebappinstance \
             --image blogwebappregistry.azurecr.io/java-app:latest \
             --cpu 1 --memory 1.5 \
