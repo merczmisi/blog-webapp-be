@@ -62,7 +62,7 @@ jobs:
           distribution: 'microsoft'
 
       - name: Build JAR
-        run: ./mvnw clean package -DskipTests
+        run: mvnw clean package -DskipTests
 
       - name: Log in to Azure
         uses: azure/login@v1
