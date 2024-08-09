@@ -84,7 +84,7 @@ jobs:
       - name: Deploy to Azure Container Instances
         run: |
           az container create \
-            --resource-group myResourceGroup \
+            --resource-group blog-webapp \
             --name blogwebappinstance \
             --image blogwebappregistry.azurecr.io/java-app:latest \
             --cpu 1 --memory 1.5 \
