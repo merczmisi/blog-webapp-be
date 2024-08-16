@@ -85,8 +85,8 @@ jobs:
         run: |
           az container create \
             --resource-group blog-webapp \
-            --registry-username blog-webapp-user \
-            --registry-password blog-webapp-pwd \
+            --registry-username blogwebappregistry \
+            --registry-password ${{ secrets.ACR_PASSWORD }} \
             --name blogwebappinstance \
             --image blogwebappregistry.azurecr.io/java-app:latest \
             --cpu 1 --memory 1.5 \
