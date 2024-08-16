@@ -10,43 +10,6 @@ on:
   workflow_dispatch:
 
 jobs:
-#  build:
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - uses: actions/checkout@v4
-#
-#      - name: Set up Java version
-#        uses: actions/setup-java@v4
-#        with:
-#          java-version: '17'
-#          distribution: 'microsoft'
-
-#      - name: Build with Maven
-#        run: mvn clean install -DskipTests
-#
-#      - name: Upload artifact for deployment job
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: blog-webapp
-#          path: '${{ github.workspace }}/target/*.jar'
-
-#  deploy:
-#    runs-on: ubuntu-latest
-#    needs: build
-#    steps:
-#      - name: Download artifact from build job
-#        uses: actions/download-artifact@v4
-#        with:
-#          name: blog-webapp
-#
-#      - name: Deploy to Azure Web App
-#        id: deploy-to-webapp
-#        uses: azure/webapps-deploy@v2
-#        with:
-#          app-name: 'blog-webapp'
-#          package: './backend-0.0.1-SNAPSHOT.jar'
-#          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
 
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -92,4 +55,4 @@ jobs:
             --cpu 1 --memory 1.5 \
             --ports 8080 \
             --ip-address public \
-            --environment-variables SPRING_DATASOURCE_URL=jdbc:mysql://blog-webapp-db:3306/PostShare?allowPublicKeyRetrieval=true SPRING_DATASOURCE_USERNAME=root SPRING_DATASOURCE_PASSWORD=rootpassword
+            --environment-variables SPRING_DATASOURCE_URL=jdbc:mysql://blog-webapp-db.mysql.database.azure.com:3306/post-share?allowPublicKeyRetrieval=true SPRING_DATASOURCE_USERNAME=blogwebapp_admin SPRING_DATASOURCE_PASSWORD=blogwebapp_password

@@ -17,9 +17,9 @@ services:
     depends_on:
       - mysql
     environment:
-      - spring.datasource.url=jdbc:mysql://mysql:3306/PostShare?allowPublicKeyRetrieval=true
-      - spring.datasource.username=root
-      - spring.datasource.password=rootpassword
+      - spring.datasource.url=jdbc:mysql://blog-webapp-db.mysql.database.azure.com:3306/post-share?allowPublicKeyRetrieval=true
+      - spring.datasource.username=blogwebapp_admin
+      - spring.datasource.password=blogwebapp_password
     ports:
       - "8080:8080"
     networks:
