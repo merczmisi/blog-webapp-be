@@ -34,7 +34,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t blogwebappregistry.azurecr.io/java-app:latest .
+          docker build --platform linux/amd64 -t blogwebappregistry.azurecr.io/blog-webapp:latest .
 
       - name: Log in to ACR
         run: |
@@ -44,15 +44,8 @@ jobs:
         run: |
           docker push blogwebappregistry.azurecr.io/java-app:latest
 
-      - name: Deploy to Azure Container Instances
+      - name: Update Azure Container App
         run: |
-          az container create \
-            --resource-group blog-webapp \
-            --registry-username blogwebappregistry \
-            --registry-password ${{ secrets.ACR_PASSWORD }} \
-            --name blogwebappinstance \
-            --image blogwebappregistry.azurecr.io/java-app:latest \
-            --cpu 1 --memory 1.5 \
-            --ports 8080 \
-            --ip-address public \
-            --environment-variables SPRING_DATASOURCE_URL=jdbc:mysql://blog-webapp-db.mysql.database.azure.com:3306/post-share?allowPublicKeyRetrieval=true SPRING_DATASOURCE_USERNAME=blogwebapp_admin SPRING_DATASOURCE_PASSWORD=blogwebapp_password
+          az containerapp update --name <your-container-app-name> \
+          --resource-group <your-resource-group> \
+          --image blogwebappregistry.azurecr.io/blog-webapp:latest
