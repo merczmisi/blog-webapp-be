@@ -42,10 +42,10 @@ jobs:
 
       - name: Push Docker image to ACR
         run: |
-          docker push blogwebappregistry.azurecr.io/java-app:latest
+          docker push blogwebappregistry.azurecr.io/blog-webapp:latest
 
       - name: Update Azure Container App
         run: |
-          az containerapp update --name <your-container-app-name> \
-          --resource-group <your-resource-group> \
+          az containerapp update --name blog-webapp \
+          --resource-group blog-webapp \
           --image blogwebappregistry.azurecr.io/blog-webapp:latest
