@@ -29,10 +29,6 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Delete static content from Azure Blob Storage
-        run: |
-          az storage blob delete-batch --account-name blogwebappstorage --source blog-webapp
-
       - name: Download static content from Azure Blob Storage
         run: |
           az storage blob download-batch -d src/main/resources/static --source blog-webapp --account-name blogwebappstorage
