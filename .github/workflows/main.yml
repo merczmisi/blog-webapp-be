@@ -31,7 +31,7 @@ jobs:
 
       - name: Download static content from Azure Blob Storage
         run: |
-          az storage blob download-batch -d src/main/resources/static --source blog-webapp --account-name my-storage-account --auth-mode login
+          az storage blob download-batch -d src/main/resources/static --source blog-webapp --account-name blogwebappstorage
 
       - name: Build JAR
         run: mvn clean package
